@@ -9,7 +9,7 @@
     app:contentPadding="16dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -18,22 +18,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="28sp"/>
-<!--            android:text="2일"-->
+            />
 
         <TextView
             android:id="@+id/textViewTemperature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
-<!--            android:text="최고 36 | 최저 37"-->
-
         <ImageView
             android:id="@+id/imageViewIcon"
-            android:layout_width="160dp"
-            android:layout_height="160dp" />
+            android:layout_width="128dp"
+            android:layout_height="128dp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

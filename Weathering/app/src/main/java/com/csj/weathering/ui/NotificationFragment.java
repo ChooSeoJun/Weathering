@@ -11,19 +11,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.csj.weathering.MainViewModel;
-import com.csj.weathering.databinding.FragmentOrderBinding;
+import com.csj.weathering.databinding.FragmentNotificationBinding;
 
 import java.util.Locale;
 
 public class NotificationFragment extends Fragment {
 
     private MainViewModel viewModel;
-    private FragmentOrderBinding binding;
+    private FragmentNotificationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        binding = FragmentOrderBinding.inflate(inflater);
+        binding = FragmentNotificationBinding.inflate(inflater);
         return binding.getRoot();
     }
 

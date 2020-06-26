@@ -2,17 +2,23 @@ package com.csj.weathering.data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Weather {
-    private double temp;
-    private String main; // weather
-    private String desc; // weather description
-    private LocalDateTime dateTime; // datetime division by 24hours
-
-    public Weather(double temp, String main, String desc, String dateTime) {
+    public double temp;
+    public double minTemp;
+    public double maxTemp;
+    public String main; // weather
+    public String desc; // weather description
+    public LocalDateTime dateTime; // datetime division by 24hours
+    public String icon;
+    public Weather() { }
+    public Weather(double temp, double minTemp, double maxTemp, String main, String desc, LocalDateTime dateTime) {
         this.temp = temp;
+        this.minTemp = minTemp;
+        this.maxTemp = maxTemp;
         this.main = main;
         this.desc = desc;
-        this.dateTime = LocalDateTime.parse(dateTime,DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        this.dateTime = dateTime;
     }
 }

@@ -6,19 +6,19 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/navigation_menu"
-        android:name="com.csj.mycafe.ui.MenuFragment"
-        android:label="@string/title_menu"
-        tools:layout="@layout/fragment_weather" />
-    <fragment
         android:id="@+id/navigation_home"
-        android:name="com.csj.mycafe.ui.HomeFragment"
+        android:name="com.csj.weathering.ui.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/navigation_order"
-        android:name="com.csj.mycafe.ui.OrderFragment"
-        android:label="@string/title_order"
+        android:id="@+id/navigation_notification"
+        android:name="com.csj.weathering.ui.NotificationFragment"
+        android:label="@string/title_notification"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/navigation_weather"
+        android:name="com.csj.weathering.ui.WeatherFragment"
+        android:label="@string/title_weather"
+        tools:layout="@layout/fragment_weather" />
     <!-- label == list item name -->
 </navigation>
