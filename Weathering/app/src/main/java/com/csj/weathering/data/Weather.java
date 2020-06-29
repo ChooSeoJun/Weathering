@@ -13,12 +13,13 @@ public class Weather {
     public LocalDateTime dateTime; // datetime division by 24hours
     public String icon;
     public Weather() { }
-    public Weather(double temp, double minTemp, double maxTemp, String main, String desc, LocalDateTime dateTime) {
+    public Weather(double temp, double minTemp, double maxTemp, String main, String desc, LocalDateTime dateTime, String icon) {
         this.temp = temp;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
         this.main = main;
         this.desc = desc;
         this.dateTime = dateTime;
+        this.icon = icon;
     }
 }

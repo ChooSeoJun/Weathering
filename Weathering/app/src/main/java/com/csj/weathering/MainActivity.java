@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL("https://api.openweathermap.org/data/2.5/forecast?q="+city+"&units=metric&APPID=a9430abd21c6ab31869ce13cd2966b6f"); //weather -> forecast 5days / 3hours
+                        URL url = new URL("https://api.openweathermap.org/data/2.5/forecast?q="+city+"&units=metric&APPID=a9430abd21c6ab31869ce13cd2966b6f"); //weather -> forecast 5days / 3hours
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     BufferedReader reader =
                             new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                             weather.maxTemp = array.getJSONObject(i).getJSONObject("main").getDouble("temp_max");
                             weather.main = array.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("main");
                             weather.desc = array.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("description");
-                            weather.desc = array.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon");
+                            weather.icon = array.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon");
                             try
                             {
                                 String dt = array.getJSONObject(i).getString("dt_txt");

@@ -22,10 +22,16 @@
     import com.csj.weathering.databinding.FragmentWeatherBinding;
     import com.csj.weathering.ui.list.WeatherAdapter;
 
+    import java.lang.reflect.Array;
+    import java.time.LocalDateTime;
     import java.util.ArrayList;
+    import java.util.Collection;
+    import java.util.Collections;
     import java.util.HashMap;
     import java.util.List;
     import java.util.Map;
+
+    import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
     public class WeatherFragment extends Fragment implements WeatherAdapter.OnListItemListener {
 
@@ -33,6 +39,11 @@
         private FragmentWeatherBinding binding;
         private NavController controller;
         private HashMap<String,Integer> weatherMap;
+
+        private final int SNOW = 0;
+        private final int RAIN = 1;
+        private final int CLOUD = 2;
+        private final int CLEAR = 3;
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {
@@ -68,20 +79,19 @@
         public List<Weather> getDaysWeather(List<Weather> weathers){
 
             List<Weather> days = new ArrayList<>();
-            int originDay = weathers.get(0).dateTime.getDayOfMonth();
-
-            weatherMap= new HashMap<>();
+//            int originDay = weathers.get(0).dateTime.getDayOfMonth();
+            LocalDateTime date = weathers.get(0).dateTime;
 
             for(int i = 0; i < 5; i++){
                 List<Weather> weathersByDatetime = new ArrayList<>();
                 double minTemp;
                 double maxTemp;
-                int finalOriginDay = originDay + i;
-
+                LocalDateTime finalOriginDay = date.plusDays(i);
+//                int finalOriginDay = originDay + i;
                 for(Weather item : weathers)
                 {
 //                    Log.i("[Item datetime]",item.dateTime.toString());
-                    if(item.dateTime.getDayOfMonth() == finalOriginDay)
+                    if(item.dateTime.getDayOfMonth() == finalOriginDay.getDayOfMonth())
                         weathersByDatetime.add(item);
 //                    Log.i("[Compare Result]",item.dateTime.getDayOfMonth() == finalOriginDay?item.dateTime.getDayOfMonth() + " is true":"false");
                 }
@@ -92,13 +102,19 @@
 
                 minTemp = weathersByDatetime.get(0).minTemp;
                 maxTemp = weathersByDatetime.get(0).maxTemp;
+                int[] weathersCount = new int[4];
 
                 for(Weather item : weathersByDatetime){
                     if(item.minTemp < minTemp) minTemp = item.minTemp;
                     if(item.maxTemp > maxTemp) maxTemp = item.maxTemp;
-                }
 
-                Weather weatherTemp = new Weather(0f,minTemp,maxTemp,"","",weathersByDatetime.get(0).dateTime);
+                    int index = getIndexByWeather(item);
+                    weathersCount[index]+=1;
+                    Log.i("[WeatherIndex]", String.valueOf(weathersCount[index]));
+                }
+                String icon = getIconName(weathersCount);
+
+                Weather weatherTemp = new Weather(0f,minTemp,maxTemp,"","",weathersByDatetime.get(0).dateTime,icon);
                 days.add(weatherTemp);
             }
             return days;
@@ -106,8 +122,46 @@
 
         public int getIndexByWeather(Weather weather){
 
-            weather.
+            String desc = weather.desc;
+            if(desc.contains("snow"))
+                return SNOW;
+            else if(desc.contains("rain"))
+                return RAIN;
+            else if(!desc.equals("few clouds") && desc.contains("clouds"))
+                return CLOUD;
+            else if(desc.contains("few clouds") || desc.contains("clear"))
+                return CLEAR;
+            return CLOUD;
+        }
 
-            return 0;
+        public String getIconName(int[] weathersCount){
+            int maxResult = weathersCount[0];
+            int maxIndex = 0;
+            for(int i=0;i<weathersCount.length;i++){
+                if(weathersCount[i] > maxResult){
+                    maxResult = weathersCount[i];
+                    maxIndex = i;
+                }
+            }
+
+            String iconName;
+
+            switch(maxIndex){
+                case SNOW:
+                    iconName = "13";
+                    break;
+                case RAIN:
+                    iconName = "10";
+                    break;
+                case CLOUD:
+                    iconName = "03";
+                    break;
+                case CLEAR:
+                    iconName = "01";
+                    break;
+                default:
+                    iconName = "50";
+            }
+            return iconName+"d";
         }
     }
