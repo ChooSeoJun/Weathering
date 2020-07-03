@@ -1,9 +1,16 @@
 package com.csj.weathering;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -37,15 +45,17 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
     JSONObject data = null;
     private MainViewModel viewModel;
+
+    private AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+//        regist();
         getJSON("Daegu"); // set variation : default - korea
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -59,7 +69,30 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class); // ViewModelProvider를 이용해서 viewModel 객체를 만들어야함 - 하나로 사용할 것이기 때문
+
     }
+
+    /*public void regist(){
+        Intent intent = new Intent(this, Alarm.class);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0,intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        calendar.set(Calendar.MINUTE, 40);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        // 지정한 시간에 매일 알림
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),  AlarmManager.INTERVAL_DAY, pIntent);
+
+    }// regist()..
+
+    public void unregist(View view) {
+        Intent intent = new Intent(this, Alarm.class);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        alarmManager.cancel(pIntent);
+    }// unregist()..*/
+
 
     @SuppressLint("StaticFieldLeak")
     public void getJSON(final String city) {
@@ -111,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                             try
                             {
                                 String dt = array.getJSONObject(i).getString("dt_txt");
-                                weather.dateTime = LocalDateTime.parse(dt,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));;
+                                weather.dateTime = LocalDateTime.parse(dt,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                             } catch(Exception e) {
                                 System.out.println("Date Exception"+ e.getMessage());
                             }

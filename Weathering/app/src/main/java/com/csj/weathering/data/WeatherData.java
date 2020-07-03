@@ -15,4 +15,8 @@ public class WeatherData {
         weathers.clear();
         this.weathers = weathersData;
     }
+
+//    private void setWeathersByJson(){
+//
+//    }
 }
