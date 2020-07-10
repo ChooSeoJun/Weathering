@@ -38,7 +38,7 @@
         private MainViewModel viewModel;
         private FragmentWeatherBinding binding;
         private NavController controller;
-        private HashMap<String,Integer> weatherMap;
+        private List<Weather> weathers;
 
         private final int SNOW = 0;
         private final int RAIN = 1;
@@ -56,15 +56,22 @@
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
     //        controller=Navigation.findNavController(view);
-            List<Weather> weathers = WeatherData.getInstance().getWeathers();
-            List<Weather> days = getDaysWeather(weathers);
-            WeatherAdapter adapter = new WeatherAdapter(this);
 
-            adapter.setWeathers(days);
-            binding.recyclerViewDays.setAdapter(adapter);
-            LinearLayoutManager manager = new LinearLayoutManager(requireContext()); // 오리엔테이션을 주는 생성자 or 매니저 생성 후 orientation 지정
-            manager.setOrientation(RecyclerView.HORIZONTAL);
-            binding.recyclerViewDays.setLayoutManager(manager);
+            viewModel.getWeathers().observe(getViewLifecycleOwner(),weatherData-> {
+                if (weatherData.size() != 0) {
+                    weathers = weatherData;
+                    List<Weather> days = getDaysWeather(weathers);
+                    WeatherAdapter adapter = new WeatherAdapter(this);
+
+                    adapter.setWeathers(days);
+                    binding.recyclerViewDays.setAdapter(adapter);
+                    LinearLayoutManager manager = new LinearLayoutManager(requireContext()); // 오리엔테이션을 주는 생성자 or 매니저 생성 후 orientation 지정
+                    manager.setOrientation(RecyclerView.HORIZONTAL);
+                    binding.recyclerViewDays.setLayoutManager(manager);
+                }
+            });
+//            List<Weather> weathers = WeatherData.getInstance().getWeathers();
+
     //        binding.buttonTest.setOnClickListener(v->{
     //            NavController controller = Navigation.findNavController(view); // NavController로 작업
     //            controller.navigate(R.id.action_navigation_menu_to_navigation_menu_detail);//화살표 이름

@@ -54,7 +54,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 //        holder.itemView.setOnClickListener(v -> listener.onItemClick(weather));
         holder.title.setText(String.format(Locale.KOREA,"%d일",weather.dateTime.getDayOfMonth()));
         holder.temp.setText(String.format(Locale.KOREA,"\n최고 %.1f | 최저 %.1f",weather.maxTemp,weather.minTemp));
-        String imageUrl = "http://openweathermap.org/img/wn/" + weather.icon + "@2x.png";
+        String imageUrl = "http://openweathermap.org/img/wn/" + weather.icon + "@4x.png";
         Log.i("[ImageUrl]",imageUrl);
         Glide.with(holder.itemView.getContext()).load(imageUrl).into(holder.icon);
     }

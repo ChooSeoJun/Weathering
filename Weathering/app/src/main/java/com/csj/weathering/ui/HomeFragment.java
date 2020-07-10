@@ -25,17 +25,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment implements MainAdapter.OnListItemListener{
 
     private MainViewModel viewModel;
     private NavController controller;
     private FragmentHomeBinding binding;
-
-    private final int SNOW = 0;
-    private final int RAIN = 1;
-    private final int CLOUD = 2;
-    private final int CLEAR = 3;
-
+    private List<Weather> weathers;
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
@@ -47,57 +42,41 @@ public class HomeFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Weather> weathers = WeatherData.getInstance().getWeathers();
-        List<Weather> days = getDaysWeather(weathers);
-        MainAdapter adapter = new MainAdapter(this);
+        viewModel.getWeathers().observe(getViewLifecycleOwner(),weatherData-> {
+            if (weatherData.size() != 0) {
+                weathers = weatherData;
+                List<Weather> days = getDayWeather(weathers);
+                MainAdapter adapter = new MainAdapter(this);
 
-        adapter.setWeathers(days);
-        binding.recyclerViewDay.setAdapter(adapter);
-        LinearLayoutManager manager = new LinearLayoutManager(requireContext()); // 오리엔테이션을 주는 생성자 or 매니저 생성 후 orientation 지정
-        manager.setOrientation(RecyclerView.HORIZONTAL);
-        binding.recyclerViewDay.setLayoutManager(manager);
-        /*binding.buttonLogin.setOnClickListener(v->{
-            String id = binding.editTextUserId.getText().toString();
-            if(!id.isEmpty()){
-                viewModel.setUserId(id);
+                adapter.setWeathers(days);
+                binding.recyclerViewDay.setAdapter(adapter);
+                LinearLayoutManager manager = new LinearLayoutManager(requireContext()); // 오리엔테이션을 주는 생성자 or 매니저 생성 후 orientation 지정
+                manager.setOrientation(RecyclerView.HORIZONTAL);
+                binding.recyclerViewDay.setLayoutManager(manager);
             }
-        });*/
+        });
+//        weathers = WeatherData.getInstance().getWeathers();
     }
 
-    public List<Weather> getDaysWeather(List<Weather> weathers){
-
+    public List<Weather> getDayWeather(List<Weather> weathers){
         List<Weather> days = new ArrayList<>();
-//            int originDay = weathers.get(0).dateTime.getDayOfMonth();
-        LocalDateTime date = weathers.get(0).dateTime;
-
-        for(int i = 0; i < 8; i++){
-
-            String icon = getIconName(weathers.get(i).icon);
-            Weather weather = weathers.get(i);
-            Weather weatherTemp = new Weather("");
-            days.add(weatherTemp);
+        int rainCount = 0;
+        for(Weather item : weathers){
+            Weather weather = item;
+            if(weather.dateTime.isBefore(LocalDateTime.now())) continue;
+            if(days.size() == 8) break;
+            if(weather.dateTime.getDayOfMonth() == LocalDateTime.now().getDayOfMonth() && weather.main.equals("Rain")) rainCount++;
+            days.add(weather);
         }
+        if(rainCount > 0){
+            binding.textViewRequire.setText("오늘은 우산이 필요해요!");
+        }
+
         return days;
     }
 
-    public String getIconName(String iconName){
+    @Override
+    public void onItemClick(Weather weather) {
 
-        switch(iconName){
-            case SNOW:
-                iconName = "13";
-                break;
-            case RAIN:
-                iconName = "10";
-                break;
-            case CLOUD:
-                iconName = "03";
-                break;
-            case CLEAR:
-                iconName = "01";
-                break;
-            default:
-                iconName = "50";
-        }
-        return iconName+"d";
     }
 }

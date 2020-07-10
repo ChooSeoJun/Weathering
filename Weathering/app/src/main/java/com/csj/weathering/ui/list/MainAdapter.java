@@ -19,12 +19,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.WeatherViewHolder> {
-    class WeatherViewHolder extends RecyclerView.ViewHolder{
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
+    class MainViewHolder extends RecyclerView.ViewHolder{
         TextView title;
         TextView temp;
         ImageView icon;
-        public WeatherViewHolder(@NonNull View itemView) {
+        public MainViewHolder(@NonNull View itemView) {
             super(itemView);
                 title=itemView.findViewById(R.id.textViewTitle);
                 temp=itemView.findViewById(R.id.textViewTemperature);
@@ -43,18 +43,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.WeatherViewHol
 
     @NonNull
     @Override
-    public WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_day_weather,parent,false);
-        return new WeatherViewHolder(view);
+        return new MainViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
         Weather weather = weathers.get(position);
 //        holder.itemView.setOnClickListener(v -> listener.onItemClick(weather));
-        holder.title.setText(String.format(Locale.KOREA,"%d %d",weather.dateTime.getHour(),weather.dateTime.getMinute()));
-        holder.temp.setText(String.format(Locale.KOREA,"\n%f℃",weather.temp));
-        String imageUrl = "http://openweathermap.org/img/wn/" + weather.icon + "@2x.png";
+        holder.title.setText(String.format(Locale.KOREA,"%d:00",weather.dateTime.getHour()));
+        holder.temp.setText(String.format(Locale.KOREA,"\n%.1f℃",weather.temp));
+        String imageUrl = "http://openweathermap.org/img/wn/" + weather.icon + "@4x.png";
         Log.i("[ImageUrl]",imageUrl);
         Glide.with(holder.itemView.getContext()).load(imageUrl).into(holder.icon);
     }

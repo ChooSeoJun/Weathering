@@ -2,6 +2,7 @@ package com.csj.weathering;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.csj.weathering.data.NotificationData;
 import com.csj.weathering.data.Weather;
 import com.csj.weathering.data.WeatherData;
 import com.csj.weathering.databinding.ActivityMainBinding;
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                        URL url = new URL("https://api.openweathermap.org/data/2.5/forecast?q="+city+"&units=metric&APPID=a9430abd21c6ab31869ce13cd2966b6f"); //weather -> forecast 5days / 3hours
+                    URL url = new URL("https://api.openweathermap.org/data/2.5/forecast?q="+city+"&units=metric&APPID=a9430abd21c6ab31869ce13cd2966b6f"); //weather -> forecast 5days / 3hours
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     BufferedReader reader =
                             new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -155,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("Weather Exception "+ e.getMessage());
                     }
                     WeatherData.getInstance().setWeathers(weathers);
+                    viewModel.setWeathers(weathers);
+//                    Log.i("[Check Null]",NotificationData.getInstance().getInformation().get(0).title);
+                    viewModel.setInformations(NotificationData.getInstance().getInformation());
 //                    Log.i("[WeatherData]",WeatherData.getInstance().getWeathers().toString());
                 }
             }

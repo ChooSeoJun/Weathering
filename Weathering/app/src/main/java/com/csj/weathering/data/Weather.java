@@ -18,8 +18,11 @@ public class Weather {
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
         this.main = main;
-        this.desc = desc;   
+        this.desc = desc;
         this.dateTime = dateTime;
         this.icon = icon;
+    }
+    public String toString(){
+        return "Weather: "+ this.main + " / Temperature: " + this.temp + " / Time: " + this.dateTime.getHour();
     }
 }

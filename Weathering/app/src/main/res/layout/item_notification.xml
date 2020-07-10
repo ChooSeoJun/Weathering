@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:contentPadding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:textSize="30sp"
+
+            android:autoSizeTextType="uniform"/>
+<!--            android:text="비가 오면 좋은 냄새가\n 나는 이유를 아세요?"-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:id="@+id/textViewContent"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textSize="18sp" />
+<!--            android:text="그 이유는 페트리코 현상이라고도 불리며 번개, 땅, 박테리아 등의 상호작용으로 독특한 화학 반응이 일어나서 생기는 냄새입니다."-->
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

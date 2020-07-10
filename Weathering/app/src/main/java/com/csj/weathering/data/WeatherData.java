@@ -12,7 +12,7 @@ public class WeatherData {
     public static WeatherData getInstance() { return instance; }
     public List<Weather> getWeathers() { return weathers; }
     public void setWeathers(List<Weather> weathersData) {
-        weathers.clear();
+//        weathers.clear();
         this.weathers = weathersData;
     }
 
