@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
     JSONObject data = null;
     private MainViewModel viewModel;
 
-    private AlarmManager alarmManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
